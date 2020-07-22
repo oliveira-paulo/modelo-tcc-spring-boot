@@ -1,5 +1,7 @@
 package com.algaworks.vinhos.controller;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class VinhosController {
 
 	@DeleteMapping("/{id}")
 	public String remover(@PathVariable Long id, RedirectAttributes attributes) {
-		vinhosReposirory.delete(id);
+		vinhosReposirory.deleteById(id);
 		
 		attributes.addFlashAttribute("mensagem", "Vinho removido com sucesso!");
 		
@@ -75,8 +77,8 @@ public class VinhosController {
 
 	@GetMapping("/update/{id}")
 	public ModelAndView editar(@PathVariable Long id) {
-		return novo(vinhosReposirory.findOne(id));
-		
+		final Optional<Vinho> vinho = vinhosReposirory.findById(id);
+		return novo(vinho.get());		
 	}
 
 	
